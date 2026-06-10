@@ -1,0 +1,107 @@
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.mainTitle {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 8px;
+  letter-spacing: -0.025em;
+  background: linear-gradient(to right, #38bdf8, #0ea5e9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.mainSubtitle {
+  font-size: 1.15rem;
+  color: #94a3b8;
+  margin-bottom: 40px;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 20px;
+}
+
+.lista {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.card {
+  background-color: #1e293b;
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #334155;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: #38bdf8;
+}
+
+.postTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.postTitle a {
+  color: #38bdf8;
+  text-decoration: none;
+}
+
+.postTitle a:hover {
+  color: #7dd3fc;
+}
+
+.meta {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.resumo {
+  color: #cbd5e1;
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+/* Estilos da Página de Detalhes */
+.backLink {
+  display: inline-block;
+  margin-bottom: 30px;
+  color: #94a3b8;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.backLink:hover {
+  color: #38bdf8;
+}
+
+.articleTitle {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+.conteudoCompleto {
+  color: #e2e8f0;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  margin-top: 30px;
+  text-align: justify;
+}
+
+.conteudoCompleto p {
+  margin-bottom: 20px;
+}

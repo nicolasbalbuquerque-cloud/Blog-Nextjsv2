@@ -1,0 +1,18 @@
+[
+  {
+    "slug": "introducao-ao-nextjs-app-router",
+    "titulo": "Introdução ao Next.js App Router",
+    "autor": "Nicolas Bomfim",
+    "data": "10 de Junho de 2026",
+    "descricao": "Descubra como a nova arquitetura do Next.js baseada em Server Components revoluciona o desenvolvimento web.",
+    "conteudo": "O App Router do Next.js introduziu uma mudança de paradigma no desenvolvimento React. Ao trazer os Server Components como padrão, ele permite que renderizemos componentes diretamente no servidor, reduzindo drasticamente a quantidade de JavaScript enviada para o navegador do usuário. Isso resulta em carregamentos incrivelmente rápidos e uma experiência de usuário impecável."
+  },
+  {
+    "slug": "boas-praticas-de-seo-no-frontend",
+    "titulo": "Boas Práticas de SEO no Front-End",
+    "autor": "Nicolas Bomfim",
+    "data": "08 de Junho de 2026",
+    "descricao": "Aprenda estratégias essenciais para colocar sua aplicação React e Next.js no topo dos motores de busca.",
+    "conteudo": "Search Engine Optimization (SEO) não é apenas sobre palavras-chave. No front-end moderno, envolve performance, acessibilidade e metadados bem estruturados. O Next.js facilita esse processo fornecendo APIs nativas como o generateMetadata, garantindo que robôs de busca como o Googlebot consigam indexar perfeitamente cada página dinâmica da sua aplicação."
+  }
+]
