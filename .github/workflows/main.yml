@@ -21,16 +21,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm' # Ativa o cache nativo do npm para acelerar os proximos builds
 
-      - name: 3. Instalar dependências (npm ci)
-        run: npm ci
+      - name: 3. Instalar dependências (npm install)
+        run: npm install
 
       - name: 4. Rodar lint (npm run lint)
         run: npm run lint
 
       - name: 5. Rodar testes (npm run test)
-        run: npm run test --if-present # O --if-present garante que nao quebre se nao houver testes configurados ainda
+        run: npm run test --if-present
 
       - name: 6. Rodar build (npm run build)
         run: npm run build
