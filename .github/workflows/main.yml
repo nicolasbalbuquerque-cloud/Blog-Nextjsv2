@@ -22,8 +22,13 @@ jobs:
         with:
           node-version: 20
 
-      - name: 3. Instalar dependências (npm ci)
-        run: npm ci
+      - name: 3. Sincronizar e Instalar dependências (npm ci)
+        run: |
+          npm i --package-lock-only
+          npm ci
+
+      - name: 4. Rodar lint (npm run lint)
+        run: npm run lint
 
       - name: 4. Rodar lint (npm run lint)
         run: npm run lint
