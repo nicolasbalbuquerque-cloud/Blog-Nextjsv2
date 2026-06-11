@@ -7,6 +7,9 @@ on:
     branches: [ "main" ]
 
 jobs:
+  # ==========================================
+  # ETAPA 1: INTEGRAÇÃO CONTÍNUA (CI) - VALIDAÇÃO
+  # ==========================================
   validacao-e-testes:
     runs-on: ubuntu-latest
 
@@ -14,26 +17,27 @@ jobs:
       - name: 1. Baixando o codigo no robo
         uses: actions/checkout@v4
 
-      - name: 2. Instalando o Node.js puro
+      - name: 2. Configurando o Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm' # Ativa o cache nativo do npm para acelerar os proximos builds
 
-      - name: 3. Instalando o PNPM globalmente
-        run: npm install -g pnpm@8
+      - name: 3. Instalar dependências (npm ci)
+        run: npm ci
 
-      - name: 4. Instalando as dependencias do projeto
-        run: pnpm install --ignore-workspace
+      - name: 4. Rodar lint (npm run lint)
+        run: npm run lint
 
-      - name: 5. Rodando o verificador de erros (ESLint)
-        run: pnpm run lint
+      - name: 5. Rodar testes (npm run test)
+        run: npm run test --if-present # O --if-present garante que nao quebre se nao houver testes configurados ainda
 
-      - name: 6. Rodando os testes automatizados
-        run: pnpm run test --if-present
+      - name: 6. Rodar build (npm run build)
+        run: npm run build
 
-      - name: 7. Testando se o Build funciona
-        run: pnpm run build
-
+  # ==========================================
+  # ETAPA 2: ENTREGA CONTÍNUA (CD) - DEPLOY
+  # ==========================================
   deploy-na-vercel:
     runs-on: ubuntu-latest
     needs: validacao-e-testes
