@@ -23,7 +23,7 @@ jobs:
         run: npm install -g pnpm@8
 
       - name: 4. Instalando as dependencias do projeto
-        run: pnpm install --no-frozen-workspace
+        run: pnpm install --ignore-workspace
 
       - name: 5. Rodando o verificador de erros (ESLint)
         run: pnpm run lint
