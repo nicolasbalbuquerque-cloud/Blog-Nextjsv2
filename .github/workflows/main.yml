@@ -1,0 +1,68 @@
+name: Pipeline do Blog Multicriterio
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  validacao-e-testes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Baixando o codigo no robo
+        uses: actions/checkout@v4
+
+      - name: 2. Instalando o PNPM no robo
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8 # Ajusta para a versao do pnpm que voce usa, se necessario
+
+      - name: 3. Instalando o Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: 4. Instalando as dependencias
+        run: pnpm install --frozen-lockfile
+
+      - name: 5. Rodando o verificador de erros (ESLint)
+        run: pnpm run lint
+
+      - name: 6. Rodando os testes automatizados
+        run: pnpm run test --if-present
+
+      - name: 7. Testando se o Build funciona
+        run: pnpm run build
+
+  deploy-na-vercel:
+    runs-on: ubuntu-latest
+    needs: validacao-e-testes
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: 1. Baixando o codigo no robo
+        uses: actions/checkout@v4
+
+      - name: 2. Instalando a ferramenta da Vercel
+        run: pnpm add -g vercel
+
+      - name: 3. Conectando com a Vercel e preparando ambiente
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: 4. Fazendo o Build final dentro da Vercel
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: 5. Colocando o site oficialmente no ar
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
