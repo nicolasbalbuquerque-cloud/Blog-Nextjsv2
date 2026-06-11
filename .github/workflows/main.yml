@@ -14,17 +14,16 @@ jobs:
       - name: 1. Baixando o codigo no robo
         uses: actions/checkout@v4
 
-      - name: 2. Instalando o PNPM diretamente via NPM
-        run: npm install -g pnpm@8
-
-      - name: 3. Instalando o Node.js
+      - name: 2. Instalando o Node.js puro
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
 
-      - name: 4. Instalando as dependencias
-        run: pnpm install --frozen-lockfile --no-frozen-workspace
+      - name: 3. Instalando o PNPM globalmente
+        run: npm install -g pnpm@8
+
+      - name: 4. Instalando as dependencias do projeto
+        run: pnpm install --no-frozen-workspace
 
       - name: 5. Rodando o verificador de erros (ESLint)
         run: pnpm run lint
@@ -45,7 +44,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 2. Instalando a ferramenta da Vercel
-        run: pnpm add -g vercel
+        run: npm install -g vercel
 
       - name: 3. Conectando com a Vercel e preparando ambiente
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
