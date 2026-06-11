@@ -22,8 +22,8 @@ jobs:
         with:
           node-version: 20
 
-      - name: 3. Instalar dependências (npm install)
-        run: npm install
+      - name: 3. Instalar dependências (npm ci)
+        run: npm ci
 
       - name: 4. Rodar lint (npm run lint)
         run: npm run lint
