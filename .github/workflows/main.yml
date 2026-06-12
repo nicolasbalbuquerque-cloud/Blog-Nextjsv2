@@ -20,18 +20,16 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      #  CORREÇÃO: Usando apenas o npm ci limpo e correto para ambientes de CI/CD
+      #  usando o npm install com --force para atualizar o lockfile na marra
       - name: Install dependencies
-        run: npm ci
+        run: npm install --force
 
-      #  CORREÇÃO: Apenas UMA etapa de lint executada
+      # Apenas UMA etapa de lint ativa
       - name: Run Lint
         run: npm run lint
 
-      # Executa a nossa suíte de testes que vamos atualizar
       - name: Run Tests
         run: npm test
 
-      # Executa o build de produção oficial
       - name: Build Application
         run: npm run build
