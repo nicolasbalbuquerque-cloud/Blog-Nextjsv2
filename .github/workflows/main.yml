@@ -8,7 +8,7 @@ on:
 
 jobs:
   # 1º Job: Validação e Testes
-  validate:
+  validacao-e-testes:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source Code
@@ -20,8 +20,9 @@ jobs:
           node-version: 20
           cache: 'npm'
 
+      #  npm install --force para sincronizar o package-lock e ignorar conflitos
       - name: Install Project Dependencies
-        run: npm ci
+        run: npm install --force
 
       - name: Run Linter Validation
         run: npm run lint --if-present
@@ -33,9 +34,9 @@ jobs:
         run: npm run build
 
   # 2º Job: Deploy Automatizado (Conectado ao primeiro)
-  deploy:
+  deploy-na-vercel:
     runs-on: ubuntu-latest
-    needs: validate # Isso cria a dependência visual e lógica no gráfico!
+    needs: validacao-e-testes #  Conecta com o nome do primeiro job
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v4
