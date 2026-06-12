@@ -7,23 +7,25 @@ import Home from './page';
 beforeAll(() => {
   global.fetch = jest.fn(() =>
     Promise.resolve({
-      json: () => Promise.resolve([]), // Retorna uma lista simulada vazia
+      json: () => Promise.resolve([]),
     })
   ) as jest.Mock;
 });
 
 describe("Página Principal do Blog - Validação de Componente Real", () => {
   it("deve renderizar a estrutura inicial do blog resolvendo o componente assíncrono", async () => {
-    // Como Home é uma async function, aguardamos sua execução para obter o JSX estático real.
+    // 1. Resolve o Server Component Assíncrono para obter o JSX
     const ResolvedPageComponent = await (Home as any)({});
 
-    // Renderiza o resultado resolvido
+    // 2. Renderiza o resultado resolvido
     render(ResolvedPageComponent);
 
-    // Procura por qualquer marcação que faça parte da estrutura estável da página
-    const elementoEstrutura = screen.queryByRole('heading') || screen.queryByText(/Blog/i);
+    // 3. Busca especificamente pelo cabeçalho principal do seu Blog
+    const elementoTitulo = screen.getByRole('heading', { 
+      name: /Decisão Multicritério em Foco/i 
+    });
     
-    // Asserção final para garantir que o HTML foi gerado sem quebras
-    expect(elementoEstrutura).toBeInTheDocument();
+    // 4. Asserção final: Garante que o título principal está renderizado no DOM
+    expect(elementoTitulo).toBeInTheDocument();
   });
 });
