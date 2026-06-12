@@ -2,34 +2,61 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
 
 jobs:
+  # 1º Job: Validação e Testes
   validate:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js Environment
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
-      #  usando o npm install com --force para atualizar o lockfile na marra
-      - name: Install dependencies
-        run: npm install --force
+      - name: Install Project Dependencies
+        run: npm ci
 
-      # Apenas UMA etapa de lint ativa
-      - name: Run Lint
-        run: npm run lint
+      - name: Run Linter Validation
+        run: npm run lint --if-present
 
-      - name: Run Tests
+      - name: Execute Automated Tests (Jest)
         run: npm test
 
-      - name: Build Application
+      - name: Build Next.js Application
         run: npm run build
+
+  # 2º Job: Deploy Automatizado (Conectado ao primeiro)
+  deploy:
+    runs-on: ubuntu-latest
+    needs: validate # Isso cria a dependência visual e lógica no gráfico!
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel
+
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Build Project Artifacts (Vercel)
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Deploy Project to Vercel
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
